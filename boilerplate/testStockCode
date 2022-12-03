@@ -1,0 +1,40 @@
+import React from 'react';
+import './App.css';
+
+function App() {
+  const [ticker, setTicker] = React.useState(''); // state to hold the ticker symbol
+  const [stockData, setStockData] = React.useState(null); // state to hold the stock data
+
+  // function to fetch stock data for the given ticker symbol
+  const fetchStockData = (ticker) => {
+    // make a GET request to the API endpoint with the ticker symbol as a query parameter
+    fetch(`https://stock-data-api.com/v1/stock/${ticker}`)
+      .then(response => response.json())
+      .then(data => setStockData(data)) // update the stock data state with the response data
+      .catch(error => console.error(error));
+  }
+
+  return (
+    <div className="App">
+      {/* input field to enter the ticker symbol */}
+      <input
+        type="text"
+        value={ticker}
+        onChange={e => setTicker(e.target.value)}
+      />
+      <button onClick={() => fetchStockData(ticker)}>
+        Get Stock Data
+      </button>
+      {/* display the stock data if it is available */}
+      {stockData && (
+        <div>
+          <p>Name: {stockData.name}</p>
+          <p>Price: {stockData.price}</p>
+          <p>Description: {stockData.description}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
