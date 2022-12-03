@@ -65,6 +65,73 @@ score = game.score()
 
 In this example, the score will be 20, as explained in the problem statement.
 
+Unit testing
+here is an example of how you can write unit tests for the bowling game scoring system in Python using the PyTest testing framework:
+
+import pytest
+
+from bowling_game import BowlingGame
+
+def test_roll():
+  game = BowlingGame()
+  game.roll(4)
+  game.roll(6)
+
+  assert game.current_roll == 2
+  assert game.rolls[0] == 4
+  assert game.rolls[1] == 6
+
+def test_is_spare():
+  game = BowlingGame()
+  game.roll(4)
+  game.roll(6)
+
+  assert game.is_spare(0) == True
+
+def test_is_not_spare():
+  game = BowlingGame()
+  game.roll(4)
+  game.roll(4)
+
+  assert game.is_spare(0) == False
+
+def test_is_strike():
+  game = BowlingGame()
+  game.roll(10)
+
+  assert game.is_strike(0) == True
+
+def test_is_not_strike():
+  game = BowlingGame()
+  game.roll(4)
+
+  assert game.is_strike(0) == False
+
+def test_score():
+  game = BowlingGame()
+  game.roll(4)
+  game.roll(6)
+  game.roll(5)
+  game.roll(0)
+
+  assert game.score() == 20
+
+The test_roll test case checks if the roll method stores the number of pins knocked down in the current roll in the rolls array and increments the current_roll variable.
+
+The test_is_spare test case checks if the is_spare method returns True for a spare frame (i.e., a frame in which the sum of the rolls is 10).
+
+The test_is_not_spare test case checks if the is_spare method returns False for a frame that is not a spare (i.e., a frame in which the sum of the rolls is not 10).
+
+The test_is_strike test case checks if the is_strike method returns True for a strike frame (i.e., a frame in which the first roll is 10).
+
+The test_is_not_strike test case checks if the is_strike method returns False for a frame that is not a strike (i.e., a frame in which the first roll is not 10).
+
+The test_score test case checks if the score method returns the correct score for the game by rolling 4, 6, 5, and 0 in four consecutive frames. The expected score is 20.
+
+
+
+
+
 JS version
 
 class BowlingGame {
@@ -141,3 +208,73 @@ game.roll(5)
 game.roll(0)
 const score = game.score()
 In this example, the score will be 20, as explained in the problem statement.
+
+Unit testing
+
+here is an example of how you can write unit tests for the bowling game scoring system in JavaScript using the Jest testing framework:
+
+const BowlingGame = require("./bowling-game");
+
+describe("BowlingGame", () => {
+  test("roll", () => {
+    const game = new BowlingGame();
+    game.roll(4);
+    game.roll(6);
+
+    expect(game.currentRoll).toBe(2);
+    expect(game.rolls[0]).toBe(4);
+    expect(game.rolls[1]).toBe(6);
+  });
+
+  test("isSpare", () => {
+    const game = new BowlingGame();
+    game.roll(4);
+    game.roll(6);
+
+    expect(game.isSpare(0)).toBe(true);
+  });
+
+  test("isNotSpare", () => {
+    const game = new BowlingGame();
+    game.roll(4);
+    game.roll(4);
+
+    expect(game.isSpare(0)).toBe(false);
+  });
+
+  test("isStrike", () => {
+    const game = new BowlingGame();
+    game.roll(10);
+
+    expect(game.isStrike(0)).toBe(true);
+  });
+
+  test("isNotStrike", () => {
+    const game = new BowlingGame();
+    game.roll(4);
+
+    expect(game.isStrike(0)).toBe(false);
+  });
+
+  test("score", () => {
+    const game = new BowlingGame();
+    game.roll(4);
+    game.roll(6);
+    game.roll(5);
+    game.roll(0);
+
+    expect(game.score()).toBe(20);
+  });
+});
+
+The test("roll") test case checks if the roll method stores the number of pins knocked down in the current roll in the rolls array and increments the currentRoll variable.
+
+The test("isSpare") test case checks if the isSpare method returns true for a spare frame (i.e., a frame in which the sum of the rolls is 10).
+
+The test("isNotSpare") test case checks if the isSpare method returns false for a frame that is not a spare (i.e., a frame in which the sum of the rolls is not 10).
+
+The test("isStrike") test case checks if the isStrike method returns true for a strike frame (i.e., a frame in which the first roll is 10).
+
+The test("isNotStrike") test case checks if the isStrike method returns false for a frame that is not a strike (i.e., a frame in which the first roll is not 10).
+
+The test("score") test case checks if the score method returns the correct score for the game by rolling 4, 6, 5, and 0 in four consecutive frames. The expected score is 20.
