@@ -1,0 +1,76 @@
+public class BowlingGame {
+  // An array to store the number of pins knocked down in each roll
+  private int[] rolls = new int[21];
+  private int currentRoll = 0;
+
+  public void roll(int noOfPins) {
+    // Store the number of pins knocked down in the current roll
+    rolls[currentRoll++] = noOfPins;
+  }
+
+  public int score() {
+    int score = 0;
+    int frameIndex = 0;
+
+    // Loop through all the frames
+    for (int frame = 0; frame < 10; frame++) {
+      // If it is a strike
+      if (rolls[frameIndex] == 10) {
+        // Add the score for the strike
+        score += 10 + rolls[frameIndex + 1] + rolls[frameIndex + 2];
+        frameIndex++;
+      } else if (isSpare(frameIndex)) {
+        // If it is a spare, add the score for the spare
+        score += 10 + rolls[frameIndex + 2];
+        frameIndex += 2;
+      } else {
+        // If it is an open frame, add the score for the frame
+        score += rolls[frameIndex] + rolls[frameIndex + 1];
+        frameIndex += 2;
+      }
+    }
+
+    return score;
+  }
+
+  private boolean isSpare(int frameIndex) {
+    // Check if it is a spare by checking if the sum of the rolls in the frame is 10
+    return rolls[frameIndex] + rolls[frameIndex + 1] == 10;
+  }
+
+  private boolean isStrike(int frameIndex) {
+    // Check if it is a strike by checking if the first roll in the frame is 10
+    return rolls[frameIndex] == 10;
+  }
+}
+
+In the last frame, if the bowler bowls a spare, they get another bowl. The score of this frame is the sum of the three bowls.
+In the last frame, if the bowler bowls a strike, they get another 2 bowls. The score of this frame is the sum of the three bowls.
+To handle this, we can add a check for the last frame and handle the spare and strike cases separately.
+
+Here is how the updated score method could look like:
+
+public int score() {
+  int score = 0;
+  int frameIndex = 0;
+
+  // Loop through all the frames
+  for (int frame = 0; frame < 10; frame++) {
+    // If it is the last frame
+    if (frame == 9) {
+      // If it is a strike
+      if (isStrike(frameIndex)) {
+        // Add the score for the strike and the next two rolls
+        score += 10 + rolls[frameIndex + 1] + rolls[frameIndex + 2];
+        frameIndex++;
+      } else if (isSpare(frameIndex)) {
+        // If it is a spare, add the score for the spare and the next roll
+        score += 10 + rolls[frameIndex + 2];
+        frameIndex += 2;
+      } else {
+        // If it is an open frame, add the score for the frame
+        score += rolls[frameIndex] + rolls[frameIndex + 1];
+        frameIndex += 2;
+      }
+    } else {
+      // If it
